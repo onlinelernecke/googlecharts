@@ -1,0 +1,152 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript"></script>
+    <style>
+      .buttons {
+        display: grid;
+  	    grid-template-columns: 1fr 1fr 1fr;
+        width: 400px;
+      }
+      .buttons > button {
+        padding: 5px;
+        margin: 5px;
+
+      }
+    </style>
+  </head>
+  <body>
+    <div id="barchart_material"></div>
+    <div class="buttons">
+      <button id="btns">Start</button><button id="next">Next</button><button id="resett">Resett</button>
+    </div>
+  </body>
+  <script>
+    google.charts.load('current', {'packages':['corechart'], 'language': 'de'});
+    google.charts.setOnLoadCallback(drawChart);
+    function getOptions(){
+      var options = {
+        animation: {"startup": true},
+        width:500,
+        height: 600,
+        
+        anmiation: {
+          duration: 1000,
+          easing: 'inAndOut'
+        },
+        //hAxis: {viewWindow: {min: 0, max: 1}},
+        title: 'Wie sind die besten Universitäten Deutschlands auf die Bundesländer verteilt?',
+        //curveType: 'bar',
+        legend: { position: 'right' },
+        chartArea:{left:40,width:'50%',height:'75%'},
+        bar: {groupWidth: "95%"},
+        //isStacked: 'percent',
+        vAxis: {
+          //format: '#.#',
+          //scaleType: '',
+          maxValue: 15,
+          //suffix: '%',
+        },
+        hAxis: {
+          //format: '#%',
+        } 
+      }
+      return options;
+    }; 
+    function getData(data = null){
+      if(data == null) { 
+      var datarray = 
+      [['Answer', '', {role: "style"}, {role: "annotation"}],
+      ['Saarland', 0, "", ""],
+
+];
+      var data = google.visualization.arrayToDataTable(
+        datarray
+      );
+      }
+      return data;
+    }      
+
+    function getView(data = null){
+      var data = getData(data);
+      var view = new google.visualization.DataView(data);
+      return view;
+    }
+    function drawChart(data = null) {
+      var options = getOptions();
+      var view = getView(data);
+      var chart = new google.visualization.ColumnChart(document.getElementById('barchart_material'));
+
+      chart.draw(view, options);
+    }
+    var btns = document.getElementById('btns');
+    
+      btns.onclick = function (e) {
+        var counter = 0;
+        animationID = setInterval(function() {
+            animation(counter, "test");
+            counter = ++counter;
+          }, 1000);
+          
+        function animation(counter, b){
+          console.log(counter)
+          console.log(b)
+          tickSet = [
+            ['Sachsen-Anhalt', 0, "", ""],
+            ['Brandenburg', 1, "", ""], // Potsdam
+            ['Mecklenburg-Vorpommern', 1, "", ""], // Greifswald
+            ['Sachsen', 1, "", ""], // Dresden
+            ['Schleswig-Holstein', 1, "", ""], // Kiel
+
+            ['Bremen', 2, "", ""], // Uni Bremen, Construction University
+            ['Hamburg', 2, "", ""], // Uni Hamburg,  Hamburg U o T, 
+            ['Rheinland-Pfalz', 2, "", ""], // Mainz, Kaiserlautern, 
+            ['Thüringen', 2, "", ""], // Jena, Ilmenau, 
+
+            ['Niedersachsen', 3, "", ""], // Göttingen, Hannover, Braunschweig
+
+            ['Berlin', 4, "", ""], // Charite, Humboldt, FU, TU Berlin
+            ['Hessen', 4, "", ""], // Frankfurt, Darmstadt, Gießen, Marburg
+           
+            ['Bayern', 7, "bf8970", "Bayern"], // LMU, TU, Würzburg, Erlangen-Nuremberg, Bayreuth, Passau, Regensburg, 
+            
+            ['Baden-Württemberg', 8, "silver", "Baden-Württemberg"], // Heidelberg, Tübingen, Freiburg, Mannheim, Ulm, Karlsruhe, Konstanz, Stuttgart
+            
+            ['Nordrhein-Westfalen', 13, "gold", "Nordrhein-Westfalen"], // Aachen, Bonn, Bielefeld, Köln, Münster, Duisburg-Essen, Düsseldorf, Bochum, TU Dortmund, Siegen, Wuppertal, CBS, WHU: Beisheim
+      
+
+          ]
+          if(counter == tickSet.length){
+            clearInterval(animationID);
+            return;
+          }
+          var data = getData();
+          for (var i = Math.max(0, counter-5); i <= counter; i++) {
+
+            data.addRow(
+              tickSet[i]
+            )
+
+          }
+          
+          //counter = ++counter;
+          drawChart(data);
+      
+         }
+      }      
+    var next = document.getElementById('next');
+    next.onclick = function (e) {
+      var data = getData();
+      data.addRow(
+      )
+      drawChart(data);
+    }
+
+    var resett = document.getElementById('resett');
+    resett.onclick = function (e) {
+      drawChart();
+    }
+          
+  </script>
+</html>

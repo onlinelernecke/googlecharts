@@ -1,0 +1,118 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+        var options = {
+        animation: {"startup": true},
+        width:500,
+        height: 600,
+        
+        anmiation: {
+          duration: 1000,
+          easing: 'inAndOut'
+        },
+        //hAxis: {viewWindow: {min: 0, max: 1}},
+        title: 'Wie viele Mädchen absolvierten 2015 eine fünfjährige Grundschulbildung in den Ländern mit niedrigem Einkommen? ',
+        //curveType: 'bar',
+        legend: { position: 'right' },
+        chartArea:{left:25,width:'50%',height:'75%'},
+        bar: {groupWidth: "100%"},
+        //isStacked: 'percent',
+        vAxis: {
+          //format: '#%',
+          scaleType: 'percent',
+          maxValue: 100,
+          suffix: '%',
+        },
+        hAxis: {
+          //format: '#%',
+        }  
+      };
+        var datarray = 
+          [['Answer', 'Prozent', {role: "style"}, {role: "annotation"}],
+          ['A', 20, "color: red", "20%"],
+          ['B', 40, "color: yellow", "40%"],
+          ['C', 60, "color: green", "60%"],
+          ];
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable(
+        datarray
+      
+        );
+
+        var view = new google.visualization.DataView(data);
+        /*view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" ,
+                         format: '#%',},
+                         
+                       2]);
+        */
+
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('barchart_material'));
+
+        chart.draw(view, options);
+      }
+
+      
+    </script>
+    <style>
+      .buttons {
+        display: grid;
+  	    grid-template-columns: 1fr 1fr 1fr;
+        width: 400px;
+      }
+      .buttons > button {
+        padding: 5px;
+        margin: 5px;
+
+      }
+    </style>
+  </head>
+  <body>
+    <div id="barchart_material"></div>
+    <div class="buttons">
+      <button id="btns">Start</button><button id="next">Next</button><button id="resett">Resett</button>
+    </div>
+  </body>
+  <script>
+        var btns = document.getElementById('btns');
+        btns.onclick = function (e) {
+          if(options.hAxis.viewWindow.max != 4){
+            animationID = setInterval(animation, 500);
+          }
+        }
+        
+      function animation(){
+        if(options.hAxis.viewWindow.max != 4){
+            options.hAxis.viewWindow.min += 1;
+            options.hAxis.viewWindow.max += 1;
+
+            drawChart();
+          } 
+        }
+        var next = document.getElementById('next');
+        next.onclick = function (e) {
+          animation()
+        }
+        var resett = document.getElementById('resett');
+        resett.onclick = function (e) {
+          if(animationID) {
+            clearInterval(animationID);
+          }
+          
+          options.hAxis.viewWindow.min = 0;
+          options.hAxis.viewWindow.max = 1;
+          drawChart();
+          
+        }
+          
+  </script>
+</html>

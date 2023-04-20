@@ -1,0 +1,129 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript"></script>
+    <style>
+      .buttons {
+        display: grid;
+  	    grid-template-columns: 1fr 1fr 1fr;
+        width: 400px;
+      }
+      .buttons > button {
+        padding: 5px;
+        margin: 5px;
+
+      }
+    </style>
+  </head>
+  <body>
+    <div id="barchart_material"></div>
+    <div class="buttons">
+      <button id="btns">Start</button><button id="next">Next</button><button id="resett">Resett</button>
+    </div>
+  </body>
+  <script>
+    google.charts.load('current', {'packages':['corechart'], 'language': 'de'});
+    google.charts.setOnLoadCallback(drawChart);
+    function getOptions(){
+      var options = {
+        animation: {"startup": true},
+        width:500,
+        height: 600,
+        
+        anmiation: {
+          duration: 1000,
+          easing: 'inAndOut'
+        },
+        //hAxis: {viewWindow: {min: 0, max: 1}},
+        title: 'Wie viele von allen Erwerbstätigen in den USA arbeiten im Restaurantsektor?',
+        //curveType: 'bar',
+        legend: { position: 'right' },
+        chartArea:{left:40,width:'50%',height:'75%'},
+        bar: {groupWidth: "95%"},
+        //isStacked: 'percent',
+        vAxis: {
+          //format: '#.#',
+          //scaleType: '',
+          maxValue: 40,
+          //suffix: '%',
+        },
+        hAxis: {
+          //format: '#%',
+        } 
+      }
+      return options;
+    }; 
+    function getData(data = null){
+      if(data == null) { 
+      var datarray = 
+      [['Answer', '', {role: "style"}, {role: "annotation"}],
+        ['A', 10, "color: purple", "Ungefähr 10 %"],
+      ];
+      var data = google.visualization.arrayToDataTable(
+        datarray
+      );
+      }
+      return data;
+    }      
+
+    function getView(data = null){
+      var data = getData(data);
+      var view = new google.visualization.DataView(data);
+      return view;
+    }
+    function drawChart(data = null) {
+      var options = getOptions();
+      var view = getView(data);
+      var chart = new google.visualization.ColumnChart(document.getElementById('barchart_material'));
+
+      chart.draw(view, options);
+    }
+    var btns = document.getElementById('btns');
+    
+      btns.onclick = function (e) {
+        var counter = 0;
+        animationID = setInterval(function() {
+            animation(counter, "test");
+            counter = ++counter;
+          }, 1000);
+          
+        function animation(counter, b){
+          console.log(counter)
+          console.log(b)
+          tickSet = [
+            ['B', 20, "color: orange", "Etwa 20 %"],
+            ['C', 30, "color: blue", "Etwa 30 %"] 
+          ]
+          if(counter == tickSet.length){
+            clearInterval(animationID);
+            return;
+          }
+          var data = getData();
+          for (var i = 0; i <= counter; i++) {
+            data.addRow(
+              tickSet[i]
+            )
+          }
+          
+          //counter = ++counter;
+          drawChart(data);
+      
+         }
+      }      
+    var next = document.getElementById('next');
+    next.onclick = function (e) {
+      var data = getData();
+      data.addRow(
+        ['B', 20, "color: orange", "Etwa 20 %"],
+      )
+      drawChart(data);
+    }
+
+    var resett = document.getElementById('resett');
+    resett.onclick = function (e) {
+      drawChart();
+    }
+          
+  </script>
+</html>
