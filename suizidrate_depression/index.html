@@ -1,0 +1,106 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+        var options = {
+        animation: {"startup": true},
+        width:500,
+        height: 600,
+        anmiation: {
+          duration: 1000,
+          easing: 'inAndOut'
+        },
+        hAxis: {viewWindow: {min: 0, max: 3}},
+        title: 'avoidable deaths Germany 1980-2020',
+        curveType: 'function',
+        legend: { position: 'right' },
+        chartArea:{left:25,width:'50%',height:'75%'}
+        };
+        var datarray = 
+          [['Year', 'Germany', 'Hessen', 'Sachsen-Anhalt'],
+          ['1980', 34.9, 29.2, NaN],
+          ['1985', 29.5 , 25.7, NaN],
+          ['1990', 24.7, 18.6, 40.7 ],
+          ['1995', 18.6, 14.7, 23.1 ],
+          ['2000', 15.3, 14.0, 18.6],
+          ['2005', 12.4 , 10.9, 16.2],
+          ['2010', 10.8, 10.3, 14.8 ],
+          ['2015', 11.1, 10.5, 15.9 ],
+          ['2016', 11.2, 9.5, 16.1 ],
+          ['2017', 11, 10.4, 15.6 ],
+          ['2018', 11, 10.8, 14.1 ],
+          ['2019', 10.8, 9.9, 14.4 ],
+          ['2020', 11, 9.4, 16.4 ],];
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable(
+        datarray
+      
+        );
+
+        
+
+
+
+        var chart = new google.visualization.LineChart(document.getElementById('barchart_material'));
+
+        chart.draw(data, options);
+      }
+
+      
+    </script>
+    <style>
+      .buttons {
+        display: grid;
+  	    grid-template-columns: 1fr 1fr 1fr;
+        width: 400px;
+      }
+      .buttons > button {
+        padding: 5px;
+        margin: 5px;
+
+      }
+    </style>
+  </head>
+  <body>
+    <div id="barchart_material"></div>
+    <div class="buttons">
+      <button id="btns">Start</button><button id="next">Next</button><button id="resett">Resett</button>
+    </div>
+  </body>
+  <script>
+        var btns = document.getElementById('btns');
+        btns.onclick = function (e) {
+          if(options.hAxis.viewWindow.max != 13){
+            animationID = setInterval(animation, 500);
+          }
+        }
+        
+      function animation(){
+        if(options.hAxis.viewWindow.max != 13){
+            //options.hAxis.viewWindow.min += 1;
+            options.hAxis.viewWindow.max += 1;
+
+            drawChart();
+          } 
+        }
+        var next = document.getElementById('next');
+        next.onclick = function (e) {
+          animation()
+        }
+        var resett = document.getElementById('resett');
+        resett.onclick = function (e) {
+          if(animationID) {
+            clearInterval(animationID);
+          }
+          
+          options.hAxis.viewWindow.min = 0;
+          options.hAxis.viewWindow.max = 3;
+          drawChart();
+          
+        }
+          
+  </script>
+</html>
