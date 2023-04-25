@@ -41,7 +41,7 @@
         legend: { position: 'right' },
         chartArea:{left:40,width:'50%',height:'75%'},
         bar: {groupWidth: "95%"},
-        //isStacked: 'percent',
+        isStacked: 'true',
         vAxis: {
           //format: '#.#',
           //scaleType: '',
@@ -58,8 +58,8 @@
     function getData(data = null){
       if(data == null) { 
       var datarray = 
-      [['Answer', '', {role: "style"}, {role: "annotation"}],
-        ['A', 1 , "color: purple", "+ +"],
+      [['Answer', '0-12 km', "12-50 km", {role: "style"}, {role: "annotation"}],
+        
       ];
       var data = google.visualization.arrayToDataTable(
         datarray
@@ -93,8 +93,7 @@
           console.log(counter)
           console.log(b)
           tickSet = [
-            ['B', 0, "color: orange", "+ -"],
-            ['C', 0, "color: blue", "- +"] 
+           
           ]
           if(counter == tickSet.length){
             clearInterval(animationID);
@@ -116,7 +115,8 @@
     next.onclick = function (e) {
       var data = getData();
       data.addRow(
-        ['B', 0, "color: orange", "+ -"],
+       
+            
       )
       drawChart(data);
     }
