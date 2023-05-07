@@ -21,11 +21,11 @@
     <div class="buttons">
       <button id="offertoleft">Angebot nach Links</button><button id="offertoright">Angebot nach Rechts</button><br>
       <button id="demandtoleft">Nachfrage nach Links</button><button id="demandtoright">Nachfrage nach Rechts</button><br>
-      <button id="btns">Start</button><button id="next">Next</button><button id="resett">Resett</button>
+      <button id="start">Start</button><button id="next">Next</button><button id="resett">Resett</button>
     </div>
   </body>
   <script>
-    google.charts.load('current', {'packages':['corechart'], 'language': 'de'});
+    google.charts.load('current', {'packages':['corechart', 'line'], 'language': 'de'});
     google.charts.setOnLoadCallback(drawChart);
     function getOptions(){
       var options = {
@@ -37,24 +37,20 @@
           duration: 1000,
           easing: 'inAndOut'
         },
-        //hAxis: {viewWindow: {min: 0, max: 1}},
+
         title: 'Angebot und Nachfrage',
-        //curveType: 'bar',
+
         legend: { position: 'right' },
         chartArea:{left:40,width:'50%',height:'75%'},
         bar: {groupWidth: "95%"},
-        //isStacked: 'percent',
         vAxis: {
           format: '#.# €',
-          //scaleType: '',
-          maxValue: 7,
-          minValue: 1,
-          //suffix: '%',
-
-
+          gridlines: {count: 14},
+          minValue: 2
         },
         hAxis: {
-          //format: '#%',
+          gridlines: {count: 10}
+          
         } 
       }
       return options;
@@ -62,13 +58,17 @@
     function getData(data = null){
       if(data == null) { 
       var datarray = 
-      [   ['Menge', 'Angebot', 'Nachfrage'],
-          ['1',  2,      6],
-          ['2',  3,      5],
-          ['3',  4,      4],
-          ['4',  5,      3],
-          ['5',  6,      2],
-         // ['6',  7,      1]
+      [  ['X', 'Angebot', 'Nachfrage'],
+          [1,  2,      6],
+          [2,  3,      5],
+          [3,  4,      4],
+          [4,  5,      3],
+          [5,  6,      2],
+         // ['6',  7,      1]*/
+
+       /*  ['X',  '5'],
+         [1,  6,],
+         [6,  1,],*/
         
       ];
       var data = google.visualization.arrayToDataTable(
@@ -90,37 +90,108 @@
 
       chart.draw(view, options);
     }
-    var btns = document.getElementById('btns');
-    
-      btns.onclick = function (e) {
-        var counter = 0;
-        animationID = setInterval(function() {
-            animation(counter, "test");
-            counter = ++counter;
-          }, 1000);
-          
-        function animation(counter, b){
-          console.log(counter)
-          console.log(b)
-          tickSet = [
-            
-          ]
-          if(counter == tickSet.length){
-            clearInterval(animationID);
-            return;
-          }
-          var data = getData();
-          for (var i = 0; i <= counter; i++) {
-            data.addRow(
-              tickSet[i]
-            )
-          }
-          
-          //counter = ++counter;
-          drawChart(data);
+
+    var offertoleft = document.getElementById('offertoleft');
+    offertoleft.onclick = function (e) {
+      var datarray = 
+      [   ['Menge', 'Angebot', 'Nachfrage'],
+          [1,  3,      6],
+          [2,  4,      5],
+          [3,  5,      4],
+          [4,  6,      3],
+          [5,  7,      2],
+         // ['6',  7,      1]
+        
+      ];
+      var data = google.visualization.arrayToDataTable(
+        datarray
+      );
+      drawChart(data)
+    }
+
+    var offertoright = document.getElementById('offertoright');
+    offertoright.onclick = function (e) {
+      var datarray = 
+      [   ['Menge', 'Angebot', 'Nachfrage'],
+          [1,  1,      6],
+          [2,  2,      5],
+          [3,  3,      4],
+          [4,  4,      3],
+          [5,  5,      2],
+         // ['6',  7,      1]
+        
+      ];
+      var data = google.visualization.arrayToDataTable(
+        datarray
+      );
+      drawChart(data)
       
-         }
-      }      
+    }
+    var demandtoleft = document.getElementById('demandtoleft');
+    demandtoleft.onclick = function (e) {
+      var datarray = 
+      [   ['Menge', 'Angebot', 'Nachfrage'],
+          [1,  2,      5],
+          [2,  3,      4],
+          [3,  4,      3],
+          [4,  5,      2],
+          [5,  6,      1],
+         // ['6',  7,      1]
+        
+      ];
+      var data = google.visualization.arrayToDataTable(
+        datarray
+      );
+      drawChart(data)
+    }
+    var demandtoright = document.getElementById('demandtoright');
+    demandtoright.onclick = function (e) {
+      var datarray = 
+      [   ['Menge', 'Angebot', 'Nachfrage'],
+          [1,  2,      7],
+          [2,  3,      6],
+          [3,  4,      5],
+          [4,  5,      4],
+          [5,  6,      3],
+         // ['6',  7,      1]
+        
+      ];
+      var data = google.visualization.arrayToDataTable(
+        datarray
+      );
+      drawChart(data)
+    }
+
+    var start = document.getElementById('start');
+    start.onclick = function (e) {
+      var counter = 0;
+      animationID = setInterval(function() {
+          animation(counter, "test");
+          counter = ++counter;
+        }, 1000);
+        
+      function animation(counter, b){
+        console.log(counter)
+        console.log(b)
+        tickSet = [
+          
+        ]
+        if(counter == tickSet.length){
+          clearInterval(animationID);
+          return;
+        }
+        var data = getData();
+        for (var i = 0; i <= counter; i++) {
+          data.addRow(
+            tickSet[i]
+          )
+        }
+        
+        //counter = ++counter;
+        drawChart(data);
+    
+        }
+    }      
     var next = document.getElementById('next');
     next.onclick = function (e) {
       var data = getData();
